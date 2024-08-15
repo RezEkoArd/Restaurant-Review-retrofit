@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.rezekoard.restaurantreview.data.response.CustomerReviewsItem
 import com.rezekoard.restaurantreview.data.response.Restaurant
 import com.rezekoard.restaurantreview.databinding.ActivityMainBinding
@@ -41,6 +42,15 @@ class MainActivity : AppCompatActivity() {
         }
         mainViewModel.isLoading.observe(this) {
             showLoading(it)
+        }
+        mainViewModel.snackBarText.observe(this) {
+            it.getContentIfNotHandled()?.let { snackBarText ->
+                Snackbar.make(
+                    window.decorView.rootView,
+                    snackBarText,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
 
         binding.btnSend.setOnClickListener { view ->
