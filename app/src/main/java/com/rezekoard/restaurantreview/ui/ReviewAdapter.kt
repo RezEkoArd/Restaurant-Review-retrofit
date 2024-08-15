@@ -1,3 +1,4 @@
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -19,7 +20,7 @@ class ReviewAdapter : ListAdapter<CustomerReviewsItem, ReviewAdapter.MyViewHolde
         holder.bind(review)
     }
 
-    class MyViewHolder(val binding: ItemReviewBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(private val binding: ItemReviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(review: CustomerReviewsItem) {
             binding.tvItem.text = "${review.review}\n ${review.name}"
         }
@@ -27,17 +28,14 @@ class ReviewAdapter : ListAdapter<CustomerReviewsItem, ReviewAdapter.MyViewHolde
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CustomerReviewsItem>() {
-            override fun areItemsTheSame(
-                oldItem: CustomerReviewsItem,
-                newItem: CustomerReviewsItem
-            ): Boolean {
-                return oldItem == newItem
+            override fun areItemsTheSame(oldItem: CustomerReviewsItem, newItem: CustomerReviewsItem): Boolean {
+                Log.d("ReviewAdapter", "oldItem: $oldItem, newItem: $newItem")
+                return oldItem.name == newItem.name && oldItem.review == newItem.review
+
             }
 
-            override fun areContentsTheSame(
-                oldItem: CustomerReviewsItem,
-                newItem: CustomerReviewsItem
-            ): Boolean {
+            override fun areContentsTheSame(oldItem: CustomerReviewsItem, newItem: CustomerReviewsItem): Boolean {
+                Log.d("ReviewAdapter", "oldItem: $oldItem, newItem: $newItem")
                 return oldItem == newItem
             }
         }
